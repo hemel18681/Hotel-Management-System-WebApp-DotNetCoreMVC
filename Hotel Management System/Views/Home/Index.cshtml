@@ -1,0 +1,33 @@
+﻿@model Hotel_Management_System.Models.UserDetails
+
+<div class="container">
+
+    <h4>Login</h4>
+    <hr />
+    @ViewBag.message
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Index">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="user_phone" class="control-label">User ID:</label>
+                    <input asp-for="user_phone" class="form-control" />
+                    <span asp-validation-for="user_phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="user_password" class="control-label">User Password:</label>
+                    <input type="password" asp-for="user_password" class="form-control" />
+                    <span asp-validation-for="user_password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Login" class="btn btn-outline-success" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
