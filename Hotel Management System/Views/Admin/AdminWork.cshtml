@@ -1,9 +1,28 @@
-﻿<div class="container">
+﻿
+@{
+    Layout = "_Layout";
+}
+@using Microsoft.AspNetCore.Http;
+@using Hotel_Management_System.Models;
+@model IEnumerable<Hotel_Management_System.Models.UserDetails>
+<!DOCTYPE html>
 
-
-    <div class="row">
-        <div class="col-md-4">
-           <h2>In this page we will work for admin </h2>
-        </div>
-    </div>
+<div class="container">
+    @{
+        var s = Context.Session.GetInt32("adminId");
+        if (s == null)
+        {
+            @:Please login First
+        }
+        else
+        {
+            @:Welcome @Context.Session.GetString("adminUserName")
+            <br />
+            <a asp-controller="Admin" asp-action="EditProfile" asp-route-id="@Context.Session.GetInt32("adminId")">Edit Profile</a>
+            <br />
+            <a asp-controller="Admin" asp-action="AddUser">Add an User</a>
+            <br />
+            <a asp-controller="Home" asp-action="Logout">Logout</a>
+        }
+    }
 </div>

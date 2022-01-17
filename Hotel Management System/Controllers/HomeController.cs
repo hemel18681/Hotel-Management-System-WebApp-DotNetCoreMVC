@@ -22,11 +22,11 @@ namespace Hotel_Management_System.Controllers
         {
             int cheak = 1;
             var active = db.user_info.Where(a => a.status == cheak).FirstOrDefault();
-            if (active == null && HttpContext.Session.GetString("adminid") == null)
+            if (active == null && HttpContext.Session.GetInt32("adminId") == null)
             {
                 return View();
             }
-            else if (HttpContext.Session.GetString("adminid") == null)
+            else if (HttpContext.Session.GetInt32("adminId") == null)
             {
                 return RedirectToAction("Logout");
             }
@@ -47,7 +47,10 @@ namespace Hotel_Management_System.Controllers
                 if (account.user_password == ud.user_password)
                 {
                     msg = "";
-                    HttpContext.Session.SetString("adminid", account.user_name);
+                    HttpContext.Session.SetInt32("adminId", account.user_phone);
+                    HttpContext.Session.SetString("adminUserName", account.user_name);
+                    HttpContext.Session.SetInt32("userType", account.user_type);
+
                     account.status = 1;
                     db.Entry(account).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     db.SaveChanges();

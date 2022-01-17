@@ -19,5 +19,30 @@ namespace Hotel_Management_System.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult AddUser()
+        {
+            return View("AdminAddUser", new UserDetails());
+        }
+        [HttpPost]
+        public IActionResult AddUser(UserDetails user)
+        {
+            string msg;
+            var account = db.user_info.Where(a => a.user_phone == user.user_phone).FirstOrDefault();
+            if (account == null)
+            {
+                db.user_info.Add(user);
+                db.SaveChanges();
+                return RedirectToAction("AdminWork");
+            }
+            else
+            {
+                msg = "Already exist as an User.";
+            }
+            ViewBag.message = msg;
+            return View("AdminAddUser");
+
+        }
     }
 }

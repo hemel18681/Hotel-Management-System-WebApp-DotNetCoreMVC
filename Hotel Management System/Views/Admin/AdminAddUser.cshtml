@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@model Hotel_Management_System.Models.UserDetails
+@using Microsoft.AspNetCore.Http;
+
+<div class="container">
+    @{
+        var s = Context.Session.GetInt32("adminId");
+        if (s == null)
+        {
+            @:s
+            @:Please login First
+        }
+        else
+        {
+            <h4>NoticeAndEvent</h4>
+            <hr />
+            <form method="post" asp-controller="admin" asp-action="AddUser">
+                @ViewBag.message
+                <table cellpadding="2" cellspacing="2">
+                    <tr>
+                        <td>User Phone Number:</td>
+                        <td>
+                            <input class="form-control" type="text" asp-for="user_phone" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>User Password:</td>
+                        <td>
+                            <input class="form-control" type="password" asp-for="user_password" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>User Name:</td>
+                        <td>
+                            <input  class="form-control" type="password" asp-for="user_name" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>User Type:</td>
+                        <td>
+                            <select asp-for="user_type">
+                                <option value="1">Admin</option>
+                                <option value="0">User</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>
+                            <input type="submit" value="ADD" />
+                        </td>
+                    </tr>
+                </table>
+
+            </form>
+        }
+    }
+</div>
