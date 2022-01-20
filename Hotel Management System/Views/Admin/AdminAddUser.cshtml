@@ -15,33 +15,41 @@
         }
         else
         {
-            <h4>NoticeAndEvent</h4>
+            <h4>Add an User</h4>
             <hr />
             <form method="post" asp-controller="admin" asp-action="AddUser">
                 @ViewBag.message
                 <table cellpadding="2" cellspacing="2">
-                    <tr>
-                        <td>User Phone Number:</td>
+                    <tr class="form-group">
                         <td>
-                            <input class="form-control" type="text" asp-for="user_phone" />
+                            <label class="form-group">User Phone Number:</label>
+                        </td>
+                        <td>
+                            <input class="form-group form-control" type="text" asp-for="user_phone" />
                         </td>
                     </tr>
-                    <tr>
-                        <td>User Password:</td>
+                    <tr class="form-group"> 
                         <td>
-                            <input class="form-control" type="password" asp-for="user_password" />
+                            <label class="form-group"> User Password:</label>
+                        </td>
+                        <td>
+                            <input class="form-group form-control" type="password" asp-for="user_password" />
                         </td>
                     </tr>
-                    <tr>
-                        <td>User Name:</td>
+                    <tr class="form-group">
                         <td>
-                            <input  class="form-control" type="password" asp-for="user_name" />
+                            <label class="form-group"> User Name:</label>
+                        </td>
+                        <td>
+                            <input  class="form-group form-control" asp-for="user_name" />
                         </td>
                     </tr>
-                    <tr>
-                        <td>User Type:</td>
+                    <tr class="form-group">
                         <td>
-                            <select asp-for="user_type">
+                            <label class="form-group"> User Type:</label>
+                        </td>
+                        <td>
+                            <select asp-for="user_type" class="form-control">
                                 <option value="1">Admin</option>
                                 <option value="0">User</option>
                             </select>
@@ -50,7 +58,7 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                            <input type="submit" value="ADD" />
+                            <input class="form-group btn btn-primary"  type="submit" value="ADD" />
                         </td>
                     </tr>
                 </table>

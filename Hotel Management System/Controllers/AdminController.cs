@@ -44,5 +44,51 @@ namespace Hotel_Management_System.Controllers
             return View("AdminAddUser");
 
         }
+        public IActionResult EditUserList()
+        {
+            return View(db.user_info.ToList());
+        }
+
+        [HttpGet]
+        public IActionResult Editprofile(int id)
+        {
+            string msg;
+            UserDetails ad = db.user_info.Find(id);
+            if (ad == null)
+            {
+                msg = "This ID is not available";
+                ViewBag.message = msg;
+                return View("AdminWork");
+            }
+            else
+            {
+                return View(ad);
+            }
+
+        }
+        [HttpPost]
+        public IActionResult EditProfile(UserDetails ad)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(ad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+                return View("AdminWork");
+            }
+            else
+            {
+                return View(ad);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult DeleteUser(int id)
+        {
+            UserDetails a = db.user_info.Single(x => x.user_id == id);
+            db.user_info.Remove(a);
+            db.SaveChanges();
+            return View("AdminWork");
+        }
+
     }
 }

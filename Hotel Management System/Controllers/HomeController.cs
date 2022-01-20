@@ -47,7 +47,7 @@ namespace Hotel_Management_System.Controllers
                 if (account.user_password == ud.user_password)
                 {
                     msg = "";
-                    HttpContext.Session.SetInt32("adminId", account.user_phone);
+                    HttpContext.Session.SetInt32("adminId", account.user_id);
                     HttpContext.Session.SetString("adminUserName", account.user_name);
                     HttpContext.Session.SetInt32("userType", account.user_type);
 

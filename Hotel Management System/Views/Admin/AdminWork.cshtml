@@ -6,7 +6,7 @@
 @using Hotel_Management_System.Models;
 @model IEnumerable<Hotel_Management_System.Models.UserDetails>
 <!DOCTYPE html>
-
+@ViewBag.message
 <div class="container">
     @{
         var s = Context.Session.GetInt32("adminId");
@@ -20,7 +20,7 @@
             <br />
             <a asp-controller="Admin" asp-action="EditProfile" asp-route-id="@Context.Session.GetInt32("adminId")">Edit Profile</a>
             <br />
-            <a asp-controller="Admin" asp-action="AddUser">Add an User</a>
+            <a asp-controller="Admin" asp-action="EditUserList">Manage and Add an User</a>
             <br />
             <a asp-controller="Home" asp-action="Logout">Logout</a>
         }

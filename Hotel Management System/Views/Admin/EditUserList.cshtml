@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Hotel_Management_System.Models.UserDetails>
+    <p>
+        <a asp-controller="Admin" asp-action="AddUser">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    User Phone Number
+                </th>
+                <th>
+                    User Name
+                </th>
+                <th>
+                    User Type
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.user_phone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.user_name)
+                        </td>
+                        <td>
+                            @if (item.user_type == 1)
+                            {
+                                <p>Admin</p>
+                            }
+                            else
+                            {
+                                <p>User</p>
+                            }
+                        </td>
+                        <td>
+                            <a asp-controller="Admin" asp-action="EditProfile" asp-route-id="@item.user_id">Edit</a> |
+                            <a onclick="return confirm('Are you sure you want to delete @item.user_phone?')" asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@item.user_id">Delete</a>
+                        </td>
+                    </tr>
+                }
+        </tbody>
+    </table>
