@@ -1,25 +1,9 @@
 ﻿@model Hotel_Management_System.Models.CustomerDetails
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="/js/WebCam.js" type="text/javascript"></script>
+<script src="/webcamjs/webcam.js" type="text/javascript"></script>
 
 
-<script type="text/javascript">
-        $(function () {
-            Webcam.set({
-                width: 360,
-                height: 260,
-                image_format: 'jpeg',
-                jpeg_quality:90
-            })
-            Webcam.attach('#idwebcam');
 
-            $('#btncapture').click(function () {
-                Webcam.snap(function (data_uri) {
-                    $("#idcaptured")[0].src = data_uri;
-                });
-        });
-    });
-</script>
 
 
 <h4>CustomerDetails</h4>
@@ -51,15 +35,15 @@
                     </tr>
                     <tr>
                         <td>
-                            <div id="idwebcam"></div>
+                            <div id="my_camera"></div>
                         </td>
                         <td>
-                            <img id="idcaptured"/>
+                            <img id="results"/>
                         </td>
                     </tr>
                     <tr>
                         <td align="center">
-                            <input type="button" id="btncapture" value="Capture"/>
+                            <input type="button" class="btn btn-secondary" value="Take Snapshot" onclick="take_snapshot()"/>
                         </td>
                     </tr>
                 </table>
@@ -75,6 +59,31 @@
         </form>
     </div>
 </div>
+
+<script language="javascript">
+    Webcam.set({
+        width: 360,
+        height: 260,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+    Webcam.attach('#my_camera');
+</script>
+
+<script language="javascript">
+    function take_snapshot() {
+        console.log('coming here');
+        Webcam.snap(function (data_uri) {
+            document.getElementById('results').innerHTML =
+                '<img src="' + data_uri + '"/>';
+            Webcam.upload(data_uri,
+                'Capture',
+                function (code, text) {
+                    alert('Photo Captured.');
+                });
+        });
+    }
+</script>
 
 <div>
     <a asp-action="Index">Back to List</a>
