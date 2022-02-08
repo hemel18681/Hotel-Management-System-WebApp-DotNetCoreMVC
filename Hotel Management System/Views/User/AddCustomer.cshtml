@@ -38,7 +38,7 @@
                             <div id="my_camera"></div>
                         </td>
                         <td>
-                            <img id="results"/>
+                            <span id="results"></span>
                         </td>
                     </tr>
                     <tr>
@@ -48,10 +48,10 @@
                     </tr>
                 </table>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="image_path" class="control-label"></label>
-                <input asp-for="image_path" class="form-control" />
-                <span asp-validation-for="image_path" class="text-danger"></span>
+                <input asp-for="image_path" id="imagePath"  class="form-control" />
+                <span asp-validation-for="image_path"  class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -76,6 +76,7 @@
         Webcam.snap(function (data_uri) {
             document.getElementById('results').innerHTML =
                 '<img src="' + data_uri + '"/>';
+            document.getElementById('imagePath').setAttribute('value', data_uri);
             Webcam.upload(data_uri,
                 'Capture',
                 function (code, text) {
