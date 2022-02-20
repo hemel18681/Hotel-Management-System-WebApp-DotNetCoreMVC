@@ -31,13 +31,13 @@ namespace Hotel_Management_System.Controllers
             return View("AddCustomer", new CustomerDetails());
         }
         [HttpPost]
-        public IActionResult AddCustomer(UserDetails user)
+        public IActionResult AddCustomer(CustomerDetails user)
         {
             string msg;
-            var account = db.user_info.Where(a => a.user_phone == user.user_phone).FirstOrDefault();
+            var account = db.customer_info.Where(a => a.customer_phone == user.customer_phone).FirstOrDefault();
             if (account == null)
             {
-                db.user_info.Add(user);
+                db.customer_info.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("UserWork");
             }
@@ -72,7 +72,7 @@ namespace Hotel_Management_System.Controllers
                             var imageBytes = System.IO.File.ReadAllBytes(filePath);
                             if(imageBytes !=null)
                             {
-                                StoreInDatabase(imageBytes);
+                                //StoreInDatabase(imageBytes);
                             }
                         }
                     }
@@ -96,9 +96,47 @@ namespace Hotel_Management_System.Controllers
                 fs.Flush();
             }
         }
-        private void StoreInDatabase(byte[] imageBytes)
-        {
+        //private void StoreInDatabase(byte[] imageBytes)
+        //{
 
+        //}
+        public IActionResult EditCustomerList()
+        {
+            return View(db.customer_info.ToList());
+        }
+
+        [HttpGet]
+        public IActionResult EditCustomer(int id)
+        {
+            string msg;
+            CustomerDetails ad = db.customer_info.Find(id);
+            if (ad == null)
+            {
+                msg = "This ID is not available";
+                ViewBag.message = msg;
+                return View("UserWork");
+            }
+            else
+            {
+                return View(ad);
+            }
+
+        }
+        [HttpPost]
+        public IActionResult EditCustomer(CustomerDetails ad)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(ad).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+                string msg = "Data updated successfully";
+                ViewBag.message = msg;
+                return View("UserWork");
+            }
+            else
+            {
+                return View(ad);
+            }
         }
     }
 }

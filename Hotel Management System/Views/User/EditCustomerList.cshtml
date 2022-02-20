@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Hotel_Management_System.Models.CustomerDetails>
+
+<p>
+    <a asp-controller="User" asp-action="AddCustomer">Add a Customer</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label>Customer Phone</label>
+            </th>
+            <th>
+                <label>Customer Name</label>
+            </th>
+            <th>
+                <label>Customer NID</label>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_nid)
+            </td>
+            <td>
+                <a asp-controller="User" asp-action="EditCustomer" asp-route-id="@item.customer_id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.customer_id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.customer_id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

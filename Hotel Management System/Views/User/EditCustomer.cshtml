@@ -1,0 +1,97 @@
+﻿@model Hotel_Management_System.Models.CustomerDetails
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="/webcamjs/webcam.js" type="text/javascript"></script>
+
+
+    <h4>Edit Customer</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="EditCustomer">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="customer_id" />
+                <div class="form-group">
+                    <label asp-for="customer_phone" class="control-label"></label>
+                    <input asp-for="customer_phone" class="form-control" />
+                    <span asp-validation-for="customer_phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="customer_name" class="control-label"></label>
+                    <input asp-for="customer_name" class="form-control" />
+                    <span asp-validation-for="customer_name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="customer_nid" class="control-label"></label>
+                    <input asp-for="customer_nid" class="form-control" />
+                    <span asp-validation-for="customer_nid" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <th align="center">Current Image</th>
+                            <th align="center"> Live Camera </th>
+                            <th align="center"> Captured Picture </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="@Model.image_path" alt="Girl in a jacket" width="360" height="260">
+                            </td>
+                            <td>
+                                <div id="my_camera"></div>
+                            </td>
+                            <td>
+                                <span id="results"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <input type="button" class="btn btn-secondary" value="Take Snapshot" onclick="take_snapshot()" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="image_path" class="control-label"></label>
+                    <input asp-for="image_path" class="form-control" />
+                    <span asp-validation-for="image_path" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+
+    <script language="javascript">
+        Webcam.set({
+            width: 360,
+            height: 260,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
+        Webcam.attach('#my_camera');
+    </script>
+
+    <script language="javascript">
+        function take_snapshot() {
+            console.log('coming here');
+            Webcam.snap(function (data_uri) {
+                document.getElementById('results').innerHTML =
+                    '<img src="' + data_uri + '"/>';
+                document.getElementById('imagePath').setAttribute('value', data_uri);
+                Webcam.upload(data_uri,
+                    'Capture',
+                    function (code, text) {
+                        alert('Photo Captured.');
+                    });
+            });
+        }
+    </script>
+
