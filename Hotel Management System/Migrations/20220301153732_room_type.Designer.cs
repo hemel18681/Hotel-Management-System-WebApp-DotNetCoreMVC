@@ -3,14 +3,16 @@ using Hotel_Management_System.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hotel_Management_System.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220301153732_room_type")]
+    partial class room_type
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,34 +45,6 @@ namespace Hotel_Management_System.Migrations
                     b.HasKey("customer_id");
 
                     b.ToTable("customer_info");
-                });
-
-            modelBuilder.Entity("Hotel_Management_System.Models.NewRoom", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("room_floor")
-                        .HasColumnType("int");
-
-                    b.Property<int>("room_no")
-                        .HasColumnType("int");
-
-                    b.Property<double>("room_price")
-                        .HasColumnType("float");
-
-                    b.Property<bool>("room_status")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("room_type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("new_room");
                 });
 
             modelBuilder.Entity("Hotel_Management_System.Models.RoomType", b =>

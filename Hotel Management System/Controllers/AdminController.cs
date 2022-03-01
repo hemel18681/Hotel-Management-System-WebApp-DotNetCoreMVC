@@ -1,5 +1,6 @@
 ﻿using Hotel_Management_System.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,11 @@ namespace Hotel_Management_System.Controllers
             return View(db.user_info.ToList());
         }
 
+        public IActionResult EditRoomTypeList()
+        {
+            return View(db.room_type.ToList());
+        }
+
         [HttpGet]
         public IActionResult Editprofile(int id)
         {
@@ -90,5 +96,62 @@ namespace Hotel_Management_System.Controllers
             return View("AdminWork");
         }
 
+        [HttpGet]
+        public IActionResult AddRoomType()
+        {
+            return View("AddRoomType", new RoomType());
+        }
+        [HttpPost]
+        public IActionResult AddRoomType(RoomType user)
+        {
+            string msg;
+            var account = db.room_type.Where(a => a.room_type == user.room_type).FirstOrDefault();
+            if (account == null)
+            {
+                db.room_type.Add(user);
+                db.SaveChanges();
+                return RedirectToAction("AdminWork");
+            }
+            else
+            {
+                msg = "Already exist as a room type.";
+            }
+            ViewBag.message = msg;
+            return View("AddRoomType");
+
+        }
+
+
+        public IActionResult EditNewRoomList()
+        {
+            return View(db.new_room.ToList());
+        }
+
+
+        [HttpGet]
+        public IActionResult AddNewRoom()
+        {
+            var roomType = db.room_type.ToList();
+            
+            List<IdDescription> myList = new List<IdDescription>();
+            for(int i=0;i<roomType.Count;i++)
+            {
+                IdDescription model = new IdDescription();
+                model.Id = roomType[i].id;
+                model.Description = roomType[i].room_type;
+                myList.Add(model);
+            }
+            ViewBag.roomTypeList = myList;
+            return View("AddNewRoom", new NewRoom());
+        }
+        [HttpPost]
+        public IActionResult AddNewRoom(NewRoom user)
+        {
+            var roomCount = db.new_room.Where(x => x.room_floor == user.room_floor).Count();
+            user.room_no = (Convert.ToInt32(user.room_floor) * 100) + (roomCount + 1);
+            db.new_room.Add(user);
+            db.SaveChanges();
+            return RedirectToAction("AdminWork");
+        }
     }
 }

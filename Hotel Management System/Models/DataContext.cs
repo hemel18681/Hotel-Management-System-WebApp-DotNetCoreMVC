@@ -21,5 +21,7 @@ namespace Hotel_Management_System.Models
             }
             public DbSet<UserDetails> user_info { get; set; }
             public DbSet<CustomerDetails> customer_info { get; set; }
+            public DbSet<RoomType> room_type { get; set; }
+            public DbSet<NewRoom> new_room { get; set; }
         }
 }
