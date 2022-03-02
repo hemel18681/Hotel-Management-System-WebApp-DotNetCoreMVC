@@ -147,11 +147,25 @@ namespace Hotel_Management_System.Controllers
         [HttpPost]
         public IActionResult AddNewRoom(NewRoom user)
         {
+            if(user.room_type=="0")
+            {
+                ViewBag.Message = "Please Select a Room Type";
+                return RedirectToAction("AddNewRoom");
+            }
             var roomCount = db.new_room.Where(x => x.room_floor == user.room_floor).Count();
             user.room_no = (Convert.ToInt32(user.room_floor) * 100) + (roomCount + 1);
             db.new_room.Add(user);
             db.SaveChanges();
             return RedirectToAction("AdminWork");
         }
+
+        [Route("Admin/GetRoomPrice")]
+        [HttpGet]
+        public IActionResult GetRoomPrice(int name)
+        {
+            var data = db.room_type.Where(x => x.id == name).FirstOrDefault();
+            return Ok(data.room_price);
+        }
+
     }
 }

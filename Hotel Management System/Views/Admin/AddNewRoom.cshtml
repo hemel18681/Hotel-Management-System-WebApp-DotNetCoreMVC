@@ -1,15 +1,18 @@
 ﻿@model Hotel_Management_System.Models.NewRoom
 
-<h4>NewRoom</h4>
+<h4>New Room</h4>
 <hr />
+@Html.Label("", (string)ViewBag.Message)
+<br />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddNewRoom">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="room_type" class="control-label"></label>
-                <select asp-for="room_type" class="form-control">
-                    @foreach(IdDescription room in ViewBag.roomTypeList)
+                <select id="roomType" asp-for="room_type" class="form-control" onchange="getRoomPrice()">
+                    <option value="0">--Select--</option>
+                    @foreach (IdDescription room in ViewBag.roomTypeList)
                     {
                         <option value="@room.Id">@room.Description</option>
                     }
@@ -18,23 +21,20 @@
             </div>
             <div class="form-group">
                 <label asp-for="room_price" class="control-label"></label>
-                <input asp-for="room_price" class="form-control" />
+                <input id="roomPrice" asp-for="room_price" class="form-control" />
                 <span asp-validation-for="room_price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="room_floor" class="control-label"></label>
-                <input asp-for="room_floor" class="form-control" />
+                <select asp-for="room_floor" class="form-control">
+                    <option>1st Floor</option>
+                    <option>2nd Floor</option>
+                    <option>3rd Floor</option>
+                    <option>4th Floor</option>
+                    <option>5th Floor</option>
+                    <option>6th Floor</option>
+                </select>
                 <span asp-validation-for="room_floor" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="room_status" /> @Html.DisplayNameFor(model => model.room_status)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="room_no" class="control-label"></label>
-                <input asp-for="room_no" class="form-control" />
-                <span asp-validation-for="room_no" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -42,6 +42,22 @@
         </form>
     </div>
 </div>
+
+
+<script language="javascript">
+    function getRoomPrice() {
+        console.log('coming here');
+        $('#roomType').click(function () {
+            var url = "/Admin/GetRoomPrice";
+            var name = $('#roomType').val();
+            $.get(url, { name: name }, function (data) {
+                console.log(data);
+                document.getElementById('roomPrice').value = data;
+            });
+        })
+    }
+</script>
+
 
 <div>
     <a asp-action="Index">Back to List</a>
