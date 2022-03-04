@@ -154,6 +154,7 @@ namespace Hotel_Management_System.Controllers
             }
             var roomCount = db.new_room.Where(x => x.room_floor == user.room_floor).Count();
             user.room_no = (Convert.ToInt32(user.room_floor) * 100) + (roomCount + 1);
+            user.room_status = true;
             db.new_room.Add(user);
             db.SaveChanges();
             return RedirectToAction("AdminWork");
@@ -161,11 +162,19 @@ namespace Hotel_Management_System.Controllers
 
         [Route("Admin/GetRoomPrice")]
         [HttpGet]
-        public IActionResult GetRoomPrice(int name)
+        public IActionResult GetRoomPrice(string name)
         {
-            var data = db.room_type.Where(x => x.id == name).FirstOrDefault();
+            var data = db.room_type.Where(x => x.room_type == name).FirstOrDefault();
             return Ok(data.room_price);
         }
-
+        [HttpGet]
+        public IActionResult DeleteRoom(int id)
+        {
+            NewRoom a = db.new_room.Single(x => x.id == id);
+            db.new_room.Remove(a);
+            db.new_room.Remove(a);
+            db.SaveChanges();
+            return RedirectToAction("EditNewRoomList");
+        }
     }
 }

@@ -138,5 +138,12 @@ namespace Hotel_Management_System.Controllers
                 return View(ad);
             }
         }
+
+        [HttpGet]
+        public IActionResult AvailableRooms()
+        {
+            var data = db.new_room.ToList().Where(x => x.room_status == true);
+            return View(data);
+        }
     }
 }

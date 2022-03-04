@@ -14,7 +14,7 @@
                     <option value="0">--Select--</option>
                     @foreach (IdDescription room in ViewBag.roomTypeList)
                     {
-                        <option value="@room.Id">@room.Description</option>
+                        <option value="@room.Description">@room.Description</option>
                     }
                 </select>
                 <span asp-validation-for="room_type" class="text-danger"></span>
@@ -27,12 +27,12 @@
             <div class="form-group">
                 <label asp-for="room_floor" class="control-label"></label>
                 <select asp-for="room_floor" class="form-control">
-                    <option>1st Floor</option>
-                    <option>2nd Floor</option>
-                    <option>3rd Floor</option>
-                    <option>4th Floor</option>
-                    <option>5th Floor</option>
-                    <option>6th Floor</option>
+                    <option value="1">1st Floor</option>
+                    <option value="2">2nd Floor</option>
+                    <option value="3">3rd Floor</option>
+                    <option value="4">4th Floor</option>
+                    <option value="5">5th Floor</option>
+                    <option value="6">6th Floor</option>
                 </select>
                 <span asp-validation-for="room_floor" class="text-danger"></span>
             </div>
