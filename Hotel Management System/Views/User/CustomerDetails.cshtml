@@ -1,0 +1,48 @@
+﻿@model Hotel_Management_System.Models.CustomerDetails
+
+@{
+    ViewData["Title"] = "CustomerDetails";
+}
+
+<h1>CustomerDetails</h1>
+
+<div>
+    <h4>CustomerDetails</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.customer_phone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.customer_phone)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.customer_name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.customer_name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.customer_nid)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.customer_nid)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.image_name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.image_name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.image_path)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.image_path)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.customer_id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

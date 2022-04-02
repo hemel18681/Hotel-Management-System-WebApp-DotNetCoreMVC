@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Hotel_Management_System.Models.CustomerDetails>
+
+@{
+    ViewData["Title"] = "CheckIn";
+}
+
+<h1>CheckIn</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.customer_phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.customer_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.customer_nid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.image_name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_nid)
+            </td>
+            <td>
+                <img src="@item.image_path" alt="Girl in a jacket" width="360" height="260">
+            </td>
+            <td>
+                @item.customer_id
+            </td>
+            <td>
+                <a asp-controller="User" asp-action="CheckInPage" asp-route-customerId="@item.customer_id">Select</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

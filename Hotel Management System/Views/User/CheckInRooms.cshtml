@@ -1,0 +1,139 @@
+﻿@model Hotel_Management_System.Models.CheckInModel
+
+@{
+    ViewData["Title"] = "CheckInPage";
+}
+
+
+<div>
+    <h4>CustomerDetails</h4>
+    <hr />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    NID
+                </th>
+                <th>
+                    Phone
+                </th>
+                <th>
+                    Picture
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td class="col-sm-2">
+                    @Html.DisplayFor(model => model.CheckInUser.customer_name)
+                </td>
+                <td class="col-sm-2">
+                    @Html.DisplayFor(model => model.CheckInUser.customer_nid)
+                </td>
+                <td class="col-sm-2">
+                    @Html.DisplayFor(model => model.CheckInUser.customer_phone)
+                </td>
+                <td class="col-sm-2">
+                    <img src="@Model.CheckInUser.image_path" alt="Human Photo" width="90" height="65">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<h3>Selected Rooms</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Room Type
+            </th>
+            <th>
+                Room Price
+            </th>
+            <th>
+                Room Floor
+            </th>
+            <th>
+                Room No
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.RoomList.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Model.RoomList[i].room_type
+                </td>
+                <td>
+                    @Model.RoomList[i].room_price
+                </td>
+                <td>
+                    @Model.RoomList[i].room_floor
+                </td>
+                <td>
+                    @Model.RoomList[i].room_no
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-customerId="@Model.RoomList[i].id">Remove</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3 class="mt-3">Available Rooms</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Room Type
+            </th>
+            <th>
+                Room Price
+            </th>
+            <th>
+                Room Floor
+            </th>
+            <th>
+                Room No
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.AvailRoom.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Model.AvailRoom[i].room_type
+                </td>
+                <td>
+                    @Model.AvailRoom[i].room_price
+                </td>
+                <td>
+                    @Model.AvailRoom[i].room_floor
+                </td>
+                <td>
+                    @Model.AvailRoom[i].room_no
+                </td>
+                <td>
+                    <a asp-controller="User" asp-action="CheckInPage" asp-route-userData="@Model" asp-route-roomId="@Model.AvailRoom[i].id">Select</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
