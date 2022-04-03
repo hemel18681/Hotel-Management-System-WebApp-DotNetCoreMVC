@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -179,22 +180,56 @@ namespace Hotel_Management_System.Controllers
             currentData = userData;
             return View(userData);
         }
-
         [HttpGet]
-        public IActionResult CheckInRooms(int customerId, int roomId)
+        public IActionResult BookARoom(int customerId, int roomId)
         {
-            CheckInModel userData = new CheckInModel();
-            var userList = (CustomerDetails)db.customer_info.Where(x => x.customer_id == customerId).First();
-            userData.CheckInUser = userList;
             var roomChoose = db.new_room.Where(x => x.id == roomId).FirstOrDefault();
             roomChoose.room_choose = true;
             db.Entry(roomChoose).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             db.SaveChanges();
+            return RedirectToAction("CheckInRooms", new {@customerId = customerId });
+        }
+
+        [HttpGet]
+        public IActionResult RemoveARoom(int customerId, int roomId)
+        {
+            var roomChoose = db.new_room.Where(x => x.id == roomId).FirstOrDefault();
+            roomChoose.room_choose = false;
+            db.Entry(roomChoose).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("CheckInRooms", new { @customerId = customerId });
+        }
+
+        [HttpGet]
+        public IActionResult CheckInRooms(int customerId)
+        {
+            CheckInModel userData = new CheckInModel();
+            var userList = (CustomerDetails)db.customer_info.Where(x => x.customer_id == customerId).First();
+            userData.CheckInUser = userList;
             var availRoom = db.new_room.Where(x => x.room_status == true && x.room_choose==false).ToList();
             var roomList = db.new_room.Where(x => x.room_choose == true).ToList();
             userData.RoomList = roomList;
             userData.AvailRoom = availRoom;
             return View(userData);
+        }
+
+        [HttpGet]
+        public IActionResult BookRooms(int customerId)
+        {
+            string ukDateString = "18/11/2014 12:33"; // dd/MM/yyyy
+            var roomList = db.new_room.Where(x => x.room_choose == true).ToList();
+            for(int i = 0; i < roomList.Count; i++)
+            {
+                roomList[i].room_booked_by = customerId;
+                roomList[i].room_status = false;
+                roomList[i].room_choose = false;
+                roomList[i].room_booked_date = DateTime.Parse(ukDateString, CultureInfo.GetCultureInfo("en-GB")).ToString("dd/MM/yyyy");
+                roomList[i].room_booked_hour = Convert.ToInt32(DateTime.Parse(ukDateString, CultureInfo.GetCultureInfo("en-GB")).ToString("HH"));
+                roomList[i].room_booked_minute = Convert.ToInt32(DateTime.Parse(ukDateString, CultureInfo.GetCultureInfo("en-GB")).ToString("mm"));
+                db.Entry(roomList[i]).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+            }
+            return View(1);
         }
 
     }

@@ -85,7 +85,7 @@
                     @Model.RoomList[i].room_no
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-customerId="@Model.RoomList[i].id">Remove</a>
+                    <a asp-controller="User" asp-action="RemoveARoom" asp-route-customerId="@Model.CheckInUser.customer_id" asp-route-roomId="@Model.RoomList[i].id">Remove</a>
                 </td>
             </tr>
         }
@@ -129,11 +129,20 @@
                     @Model.AvailRoom[i].room_no
                 </td>
                 <td>
-                    <a asp-controller="User" asp-action="CheckInPage" asp-route-userData="@Model" asp-route-roomId="@Model.AvailRoom[i].id">Select</a>
+                    <a asp-controller="User" asp-action="BookARoom" asp-route-customerId="@Model.CheckInUser.customer_id" asp-route-roomId="@Model.AvailRoom[i].id">Select</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+
+@if (Model.RoomList.Count > 0)
+{
+<div>
+    <button class="btn btn-outline-primary" asp-controller="User" asp-action="BookARoom" asp-route-customerId="@Model.CheckInUser.customer_id">Select</button>
+</div>
+}
+
 
 

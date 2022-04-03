@@ -18,5 +18,9 @@ namespace Hotel_Management_System.Models
         public int room_no { get; set; }
         public int room_booked_by { get; set; }
         public bool room_choose { get; set; }
+        public string room_booked_date { get; set; }
+        public int room_booked_hour { get; set; }
+        public int room_booked_minute { get; set; }
+
     }
 }

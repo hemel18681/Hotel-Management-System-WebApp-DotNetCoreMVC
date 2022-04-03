@@ -131,7 +131,7 @@
                     @Model.AvailRoom[i].room_no
                 </td>
                 <td>
-                    <a asp-controller="User" asp-action="CheckInRooms"  asp-route-customerId="@Model.CheckInUser.customer_id" asp-route-roomId="@Model.AvailRoom[i].id">Select</a> 
+                    <a asp-controller="User" asp-action="BookARoom"  asp-route-customerId="@Model.CheckInUser.customer_id" asp-route-roomId="@Model.AvailRoom[i].id">Select</a> 
                 </td>
             </tr>
         }
