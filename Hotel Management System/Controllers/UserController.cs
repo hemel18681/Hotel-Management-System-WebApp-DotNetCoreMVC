@@ -124,6 +124,8 @@ namespace Hotel_Management_System.Controllers
             }
 
         }
+
+
         [HttpPost]
         public IActionResult EditCustomer(CustomerDetails ad)
         {
@@ -218,7 +220,9 @@ namespace Hotel_Management_System.Controllers
         {
             string ukDateString = "18/11/2014 12:33"; // dd/MM/yyyy
             var roomList = db.new_room.Where(x => x.room_choose == true).ToList();
-            for(int i = 0; i < roomList.Count; i++)
+            var date = DateTime.Now.ToString("ddd/dd/MM/yyyy/mm/HH");
+            var invoice = date[0] + date[1] + date[4] + date[5] + date[7] + date[8] + date[10] + date[11] + date[12] + date[13] + date[15] + date[16] + date[18] + date[19];
+            for (int i = 0; i < roomList.Count; i++)
             {
                 roomList[i].room_booked_by = customerId;
                 roomList[i].room_status = false;
@@ -228,9 +232,24 @@ namespace Hotel_Management_System.Controllers
                 roomList[i].room_booked_minute = Convert.ToInt32(DateTime.Parse(ukDateString, CultureInfo.GetCultureInfo("en-GB")).ToString("mm"));
                 db.Entry(roomList[i]).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 db.SaveChanges();
+                
             }
             return View(1);
         }
 
+
+        [HttpGet]
+        public IActionResult CreateExpense()
+        {
+            return View("CreateExpense", new ExpenseModel());
+        }
+        [HttpPost]
+        public IActionResult CreateExpense(ExpenseModel expense)
+        {
+            expense.entry_date = DateTime.Now;
+            db.expense_data.Add(expense);
+            db.SaveChanges();
+            return RedirectToAction("UserWork");
+        }
     }
 }

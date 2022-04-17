@@ -23,5 +23,7 @@ namespace Hotel_Management_System.Models
             public DbSet<CustomerDetails> customer_info { get; set; }
             public DbSet<RoomType> room_type { get; set; }
             public DbSet<NewRoom> new_room { get; set; }
+            public DbSet<ExpenseModel> expense_data { get; set; }
+            public DbSet<ReportModel> report_data { get; set; }
         }
 }

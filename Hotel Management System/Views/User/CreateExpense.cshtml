@@ -1,0 +1,35 @@
+﻿@model Hotel_Management_System.Models.ExpenseModel
+
+@{
+    ViewData["Title"] = "CreateExpense";
+}
+
+<h1>CreateExpense</h1>
+
+<h4>ExpenseModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateExpense">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="expense_details" class="control-label"></label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" asp-for="expense_details" rows="3"></textarea>
+                <span asp-validation-for="expense_details" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="expense_cost" class="control-label"></label>
+                <input asp-for="expense_cost" class="form-control" />
+                <span asp-validation-for="expense_cost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
