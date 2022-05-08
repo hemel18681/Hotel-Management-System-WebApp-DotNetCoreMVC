@@ -218,7 +218,7 @@ namespace Hotel_Management_System.Controllers
         [HttpGet]
         public IActionResult BookRooms(int customerId)
         {
-            string ukDateString = "18/11/2014 12:33"; // dd/MM/yyyy
+            ReportModel report = new ReportModel();
             var roomList = db.new_room.Where(x => x.room_choose == true).ToList();
             var date = DateTime.Now.ToString("ddd/dd/MM/yyyy/mm/HH");
             var invoice = date[0] + date[1] + date[4] + date[5] + date[7] + date[8] + date[10] + date[11] + date[12] + date[13] + date[15] + date[16] + date[18] + date[19];
@@ -227,13 +227,13 @@ namespace Hotel_Management_System.Controllers
                 roomList[i].room_booked_by = customerId;
                 roomList[i].room_status = false;
                 roomList[i].room_choose = false;
-                roomList[i].room_booked_date = DateTime.Parse(ukDateString, CultureInfo.GetCultureInfo("en-GB")).ToString("dd/MM/yyyy");
-                roomList[i].room_booked_hour = Convert.ToInt32(DateTime.Parse(ukDateString, CultureInfo.GetCultureInfo("en-GB")).ToString("HH"));
-                roomList[i].room_booked_minute = Convert.ToInt32(DateTime.Parse(ukDateString, CultureInfo.GetCultureInfo("en-GB")).ToString("mm"));
+                roomList[i].room_booked_date = DateTime.Now.ToString("dd/MM/yyyy");
+                roomList[i].room_booked_hour = Convert.ToInt32(DateTime.Now.ToString("HH"));
+                roomList[i].room_booked_minute = Convert.ToInt32(DateTime.Now.ToString("mm"));
                 db.Entry(roomList[i]).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                db.SaveChanges();
-                
             }
+            //report.
+            db.SaveChanges();
             return View(1);
         }
 
