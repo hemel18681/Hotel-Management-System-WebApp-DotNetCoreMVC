@@ -4,14 +4,16 @@ using Hotel_Management_System.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hotel_Management_System.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220508083314_customerFromAddOnCustomerInfo")]
+    partial class customerFromAddOnCustomerInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,6 @@ namespace Hotel_Management_System.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("checked_in")
-                        .HasColumnType("bit");
 
                     b.Property<string>("customer_from")
                         .HasColumnType("nvarchar(max)");
@@ -83,9 +82,6 @@ namespace Hotel_Management_System.Migrations
                     b.Property<int>("room_booked_by")
                         .HasColumnType("int");
 
-                    b.Property<int>("room_booked_by_name")
-                        .HasColumnType("int");
-
                     b.Property<string>("room_booked_date")
                         .HasColumnType("nvarchar(max)");
 
@@ -134,9 +130,6 @@ namespace Hotel_Management_System.Migrations
 
                     b.Property<DateTime>("check_out_time")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("checked_out")
-                        .HasColumnType("bit");
 
                     b.Property<string>("customer_from")
                         .HasColumnType("nvarchar(max)");

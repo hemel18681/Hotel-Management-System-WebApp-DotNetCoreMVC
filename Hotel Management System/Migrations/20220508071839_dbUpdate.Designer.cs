@@ -4,14 +4,16 @@ using Hotel_Management_System.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hotel_Management_System.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220508071839_dbUpdate")]
+    partial class dbUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,12 +27,6 @@ namespace Hotel_Management_System.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("checked_in")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("customer_from")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("customer_name")
                         .HasColumnType("nvarchar(max)");
@@ -62,8 +58,8 @@ namespace Hotel_Management_System.Migrations
                     b.Property<DateTime>("entry_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("expense_cost")
-                        .HasColumnType("float");
+                    b.Property<decimal>("expense_cost")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("expense_details")
                         .HasColumnType("nvarchar(max)");
@@ -81,9 +77,6 @@ namespace Hotel_Management_System.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("room_booked_by")
-                        .HasColumnType("int");
-
-                    b.Property<int>("room_booked_by_name")
                         .HasColumnType("int");
 
                     b.Property<string>("room_booked_date")
@@ -126,17 +119,14 @@ namespace Hotel_Management_System.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("advance_amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("advance_amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("check_in_time")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("check_out_time")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("checked_out")
-                        .HasColumnType("bit");
 
                     b.Property<string>("customer_from")
                         .HasColumnType("nvarchar(max)");
@@ -147,17 +137,17 @@ namespace Hotel_Management_System.Migrations
                     b.Property<long>("customer_phone")
                         .HasColumnType("bigint");
 
-                    b.Property<double>("discount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("discount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("grand_total")
-                        .HasColumnType("float");
+                    b.Property<decimal>("grand_total")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("invoice_no")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("room_no")
-                        .HasColumnType("int");
+                    b.Property<string>("room_no")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("room_price")
                         .HasColumnType("nvarchar(max)");
@@ -168,8 +158,8 @@ namespace Hotel_Management_System.Migrations
                     b.Property<int>("stayed")
                         .HasColumnType("int");
 
-                    b.Property<double>("sub_total")
-                        .HasColumnType("float");
+                    b.Property<decimal>("sub_total")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("id");
 

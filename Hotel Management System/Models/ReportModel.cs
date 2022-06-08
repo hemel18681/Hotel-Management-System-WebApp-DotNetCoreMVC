@@ -16,15 +16,15 @@ namespace Hotel_Management_System.Models
         public string customer_name { get; set; }
         public long customer_phone { get; set; }
         public string customer_from { get; set; }
-        public string room_no { get; set; }
+        public int room_no { get; set; }
         public string room_price { get; set; }
         public int stayed { get; set; }
         public string room_total { get; set; }
-        public decimal sub_total { get; set; }
-        public decimal discount { get; set; }
-        public decimal grand_total { get; set; }
-        public decimal advance_amount { get; set; }
-
+        public double sub_total { get; set; }
+        public double discount { get; set; }
+        public double grand_total { get; set; }
+        public double advance_amount { get; set; }
+        public bool checked_out { get; set; }
 
     }
 }

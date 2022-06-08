@@ -12,5 +12,12 @@ namespace Hotel_Management_System.Models
         public CustomerDetails CheckInUser { get; set; }
         public List<NewRoom> RoomList { get; set; }
         public List<NewRoom> AvailRoom { get; set; }
+        public CheckInTmpModel CheckInUserData { get; set; }
+
+    }
+    public class CheckInTmpModel
+    {
+        public int CustomerId { get; set; }
+        public double AdvanceAmount { get; set; }
     }
 }

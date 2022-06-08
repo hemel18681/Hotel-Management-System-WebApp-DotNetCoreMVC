@@ -212,29 +212,56 @@ namespace Hotel_Management_System.Controllers
             var roomList = db.new_room.Where(x => x.room_choose == true).ToList();
             userData.RoomList = roomList;
             userData.AvailRoom = availRoom;
+            userData.CheckInUserData = new CheckInTmpModel() ;
+            userData.CheckInUserData.CustomerId = customerId;
             return View(userData);
         }
 
-        [HttpGet]
-        public IActionResult BookRooms(int customerId)
+        [HttpPost]
+        public IActionResult BookRooms(CheckInModel customerTmpData)
         {
-            ReportModel report = new ReportModel();
             var roomList = db.new_room.Where(x => x.room_choose == true).ToList();
             var date = DateTime.Now.ToString("ddd/dd/MM/yyyy/mm/HH");
-            var invoice = date[0] + date[1] + date[4] + date[5] + date[7] + date[8] + date[10] + date[11] + date[12] + date[13] + date[15] + date[16] + date[18] + date[19];
+            var invoice = date[0] + "" + date[1] + "" + date[4] + "" + date[5] + "" + date[7] + "" + date[8] + "" + date[10] + "" + date[11] + "" + date[12] + "" + date[13] + "" + date[15] + "" + date[16] + "" + date[18] + "" + date[19];
+            var customerData = db.customer_info.Where(x => x.customer_id == customerTmpData.CheckInUserData.CustomerId).FirstOrDefault();
+            customerData.checked_in = true;
+            db.Entry(customerData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var roomPrice = "";
+            for(int i = 0; i < roomList.Count; i++)
+            {
+                if (roomPrice.Length == 0) roomPrice += roomList[i].room_price.ToString();
+                else roomPrice+="\n"+ roomList[i].room_price.ToString();
+            }
             for (int i = 0; i < roomList.Count; i++)
             {
-                roomList[i].room_booked_by = customerId;
+                ReportModel report = new ReportModel();
+                roomList[i].room_booked_by = customerTmpData.CheckInUserData.CustomerId;
                 roomList[i].room_status = false;
                 roomList[i].room_choose = false;
                 roomList[i].room_booked_date = DateTime.Now.ToString("dd/MM/yyyy");
                 roomList[i].room_booked_hour = Convert.ToInt32(DateTime.Now.ToString("HH"));
                 roomList[i].room_booked_minute = Convert.ToInt32(DateTime.Now.ToString("mm"));
                 db.Entry(roomList[i]).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                report.invoice_no = invoice;
+                report.check_in_time = DateTime.Now;
+                report.customer_name = customerData.customer_name;
+                report.customer_phone = customerData.customer_phone;
+                report.customer_from = customerData.customer_from;
+                report.room_no = roomList[i].room_no;
+                if(i==0) report.room_price = roomPrice;
+                report.checked_out = false;
+                db.report_data.Add(report);
             }
-            //report.
             db.SaveChanges();
-            return View(1);
+            return RedirectToAction("UserWork");
+        }
+
+
+        [HttpGet]
+        public IActionResult CheckedInShow()
+        {
+            var checkedInList = db.customer_info.Where(x => x.checked_in == true);
+            return View("CheckedInShow", checkedInList);
         }
 
 
@@ -251,5 +278,21 @@ namespace Hotel_Management_System.Controllers
             db.SaveChanges();
             return RedirectToAction("UserWork");
         }
+
+        [HttpGet]
+        public IActionResult CheckoutForm(int customerId)
+        {
+            CheckOutFormModel data = new CheckOutFormModel();
+            var userData = db.user_info.Where(x => x.user_id == customerId).FirstOrDefault();
+            data.userData = userData;
+            var roomData = db.new_room.Where(x => x.room_booked_by == customerId).ToList();
+            data.roomData = roomData;
+            data.entryDate = roomData[0].room_booked_date;
+            data.checkoutDate = DateTime.Now.ToString("dd/MM/yyyy");
+            data.checkoutTime = DateTime.Now.ToString("HH:mm");
+            data.advanceAmount = 
+
+        }
+
     }
 }

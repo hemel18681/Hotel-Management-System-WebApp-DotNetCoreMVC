@@ -12,6 +12,6 @@ namespace Hotel_Management_System.Models
         public int id { get; set; }
         public DateTime entry_date { get; set; }
         public string expense_details { get; set; }
-        public decimal expense_cost { get; set; }
+        public double expense_cost { get; set; }
     }
 }

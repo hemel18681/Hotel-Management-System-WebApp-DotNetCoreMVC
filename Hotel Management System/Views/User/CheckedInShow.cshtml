@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<Hotel_Management_System.Models.CustomerDetails>
 
 @{
-    ViewData["Title"] = "CheckIn";
+    ViewData["Title"] = "CheckedInShow";
 }
 
-<h1>CheckIn</h1>
+<h1>Checked In Customers</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -22,7 +19,10 @@
                 @Html.DisplayNameFor(model => model.customer_nid)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.image_name)
+                @Html.DisplayNameFor(model => model.customer_from)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.image_path)
             </th>
             <th></th>
         </tr>
@@ -40,10 +40,13 @@
                 @Html.DisplayFor(modelItem => item.customer_nid)
             </td>
             <td>
-                <img src="@item.image_path" alt="Human Photo" width="140" height="80">
+                @Html.DisplayFor(modelItem => item.customer_from)
+            </td>
+            <td class="col-sm-2">
+                <img src=@item.image_path alt="Human Photo" width="90" height="65">
             </td>
             <td>
-                <a asp-controller="User" asp-action="CheckInPage" asp-route-customerId="@item.customer_id">Select</a>
+                <a asp-action="Edit" asp-route-id="@item.customer_id">Select</a>
             </td>
         </tr>
 }

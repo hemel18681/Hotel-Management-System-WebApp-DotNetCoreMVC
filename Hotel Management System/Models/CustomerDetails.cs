@@ -14,7 +14,10 @@ namespace Hotel_Management_System.Models
         public int customer_phone { get; set; }
         public string customer_name { get; set; }
         public long customer_nid { get; set; }
+        public string customer_from { get; set; }
         public string image_name { get; set; }
         public string image_path { get; set; }
+        public bool checked_in { get; set; }
+        public decimal advance_amount { get; set; }
     }
 }
