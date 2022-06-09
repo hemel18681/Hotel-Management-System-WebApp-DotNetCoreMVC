@@ -16,5 +16,6 @@ namespace Hotel_Management_System.Models
         public decimal advanceAmount { get; set; }
         public decimal remainingAmount { get; set; }
         public int totalStayDays { get; set; }
+        public decimal discountAmount { get; set; }
     }
 }

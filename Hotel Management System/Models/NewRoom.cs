@@ -12,7 +12,7 @@ namespace Hotel_Management_System.Models
         public int id { get; set; }
         [Required]
         public string room_type { get; set; }
-        public double room_price { get; set; }
+        public decimal room_price { get; set; }
         public int room_floor { get; set; }
         public bool room_status { get; set; }
         public int room_no { get; set; }

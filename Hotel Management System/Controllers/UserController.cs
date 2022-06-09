@@ -283,16 +283,26 @@ namespace Hotel_Management_System.Controllers
         public IActionResult CheckoutForm(int customerId)
         {
             CheckOutFormModel data = new CheckOutFormModel();
-            var userData = db.user_info.Where(x => x.user_id == customerId).FirstOrDefault();
+            var userData = db.customer_info.Where(x => x.customer_id == customerId).FirstOrDefault();
             data.userData = userData;
             var roomData = db.new_room.Where(x => x.room_booked_by == customerId).ToList();
             data.roomData = roomData;
             data.entryDate = roomData[0].room_booked_date;
             data.checkoutDate = DateTime.Now.ToString("dd/MM/yyyy");
             data.checkoutTime = DateTime.Now.ToString("HH:mm");
-            data.advanceAmount = 
-
+            data.advanceAmount = userData.advance_amount;
+            var previousDate = Convert.ToInt32(data.entryDate[0] + data.entryDate[1]);
+            var currentDate = Convert.ToInt32(data.checkoutDate[0] + data.checkoutDate[1]);
+            data.totalStayDays = currentDate - previousDate;
+            for(int i = 0; i < roomData.Count; i++)
+            {
+                data.totalRent += roomData[i].room_price;
+            }
+            data.remainingAmount = data.totalRent - data.advanceAmount;
+            return View(data);
         }
+        
+
 
     }
 }
