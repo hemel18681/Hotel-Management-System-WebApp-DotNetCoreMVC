@@ -18,6 +18,7 @@ namespace Hotel_Management_System.Models
         public string image_name { get; set; }
         public string image_path { get; set; }
         public bool checked_in { get; set; }
-        public decimal advance_amount { get; set; }
+        public double advance_amount { get; set; }
+        public string invoice_no { get; set; }
     }
 }

@@ -11,8 +11,8 @@ namespace Hotel_Management_System.Models
         [Key]
         public int id { get; set; }
         public string invoice_no { get; set; }
-        public DateTime check_in_time { get; set; }
-        public DateTime check_out_time { get; set; }
+        public DateTime? check_in_time { get; set; }
+        public DateTime? check_out_time { get; set; }
         public string customer_name { get; set; }
         public long customer_phone { get; set; }
         public string customer_from { get; set; }

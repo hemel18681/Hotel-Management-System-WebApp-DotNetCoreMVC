@@ -176,5 +176,17 @@ namespace Hotel_Management_System.Controllers
             db.SaveChanges();
             return RedirectToAction("EditNewRoomList");
         }
+        [HttpGet]
+        public IActionResult ViewReportSelect()
+        {
+            return View("ViewReportSelect", new ViewReportGetModel());
+        }
+
+        [HttpPost]
+        public IActionResult ViewReportSelect(ViewReportGetModel model)
+        {
+            var reportData = db.report_data.Where(x => x.check_out_time >= model.fromDate && x.check_out_time <= model.toDate && x.checked_out == true).ToList();
+            return View("ReportView", reportData);
+        }
     }
 }

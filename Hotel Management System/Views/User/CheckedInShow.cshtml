@@ -46,7 +46,7 @@
                 <img src=@item.image_path alt="Human Photo" width="90" height="65">
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.customer_id">Select</a>
+                <a asp-controller="User" asp-action="CheckoutForm" asp-route-customerId="@item.customer_id">Select</a>
             </td>
         </tr>
 }

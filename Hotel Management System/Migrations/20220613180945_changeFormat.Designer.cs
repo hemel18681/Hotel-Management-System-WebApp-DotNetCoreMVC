@@ -4,14 +4,16 @@ using Hotel_Management_System.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hotel_Management_System.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220613180945_changeFormat")]
+    partial class changeFormat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,9 +50,6 @@ namespace Hotel_Management_System.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("image_path")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("invoice_no")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("customer_id");
@@ -135,10 +134,10 @@ namespace Hotel_Management_System.Migrations
                     b.Property<double>("advance_amount")
                         .HasColumnType("float");
 
-                    b.Property<DateTime?>("check_in_time")
+                    b.Property<DateTime>("check_in_time")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("check_out_time")
+                    b.Property<DateTime>("check_out_time")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("checked_out")

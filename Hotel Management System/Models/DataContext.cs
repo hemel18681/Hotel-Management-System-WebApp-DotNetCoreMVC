@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Data;
+using Hotel_Management_System.Models;
 
 
 namespace Hotel_Management_System.Models
@@ -25,5 +26,6 @@ namespace Hotel_Management_System.Models
             public DbSet<NewRoom> new_room { get; set; }
             public DbSet<ExpenseModel> expense_data { get; set; }
             public DbSet<ReportModel> report_data { get; set; }
+            public DbSet<Hotel_Management_System.Models.ViewReportGetModel> ViewReportGetModel { get; set; }
         }
 }

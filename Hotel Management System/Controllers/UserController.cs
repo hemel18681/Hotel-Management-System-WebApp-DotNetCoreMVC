@@ -24,7 +24,8 @@ namespace Hotel_Management_System.Controllers
 
         public IActionResult UserWork()
         {
-            return View();
+            var data = db.new_room.ToList().Where(x => x.room_status == true);
+            return View(data);
         }
 
         [HttpGet]
@@ -225,6 +226,7 @@ namespace Hotel_Management_System.Controllers
             var invoice = date[0] + "" + date[1] + "" + date[4] + "" + date[5] + "" + date[7] + "" + date[8] + "" + date[10] + "" + date[11] + "" + date[12] + "" + date[13] + "" + date[15] + "" + date[16] + "" + date[18] + "" + date[19];
             var customerData = db.customer_info.Where(x => x.customer_id == customerTmpData.CheckInUserData.CustomerId).FirstOrDefault();
             customerData.checked_in = true;
+            customerData.invoice_no = invoice;
             db.Entry(customerData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             var roomPrice = "";
             for(int i = 0; i < roomList.Count; i++)
@@ -268,7 +270,9 @@ namespace Hotel_Management_System.Controllers
         [HttpGet]
         public IActionResult CreateExpense()
         {
-            return View("CreateExpense", new ExpenseModel());
+            var expense = new ExpenseView();
+            expense.view_expense = db.expense_data.Where(x => x.entry_date >= DateTime.Today).ToList();
+            return View("CreateExpense", expense);
         }
         [HttpPost]
         public IActionResult CreateExpense(ExpenseModel expense)
@@ -279,30 +283,72 @@ namespace Hotel_Management_System.Controllers
             return RedirectToAction("UserWork");
         }
 
+        [HttpPost]
+        public IActionResult ViewExpense(ExpenseGet expenseGet)
+        {
+            var expense = new ExpenseView();
+            var expenseView = db.expense_data.Where(x => x.entry_date >= expenseGet.fromDate && x.entry_date <= expenseGet.toDate).ToList();
+            expense.view_expense = expenseView;
+            return View("ViewExpense", expense);
+        }
+
         [HttpGet]
         public IActionResult CheckoutForm(int customerId)
         {
             CheckOutFormModel data = new CheckOutFormModel();
             var userData = db.customer_info.Where(x => x.customer_id == customerId).FirstOrDefault();
             data.userData = userData;
-            var roomData = db.new_room.Where(x => x.room_booked_by == customerId).ToList();
+            data.cc = data.userData.customer_id;
+            List<NewRoom> roomData = db.new_room.Where(x=>x.room_booked_by==customerId).ToList();
             data.roomData = roomData;
             data.entryDate = roomData[0].room_booked_date;
+            var bookingHour = roomData[0].room_booked_hour.ToString();
+            var bookingMinute = roomData[0].room_booked_minute.ToString();
+            if (bookingHour.Length == 1) { bookingHour = "0" + bookingHour; }
+            if (bookingMinute.Length == 1) { bookingMinute = "0" + bookingMinute; }
+            data.entryTime = bookingHour + ":" + bookingMinute;
             data.checkoutDate = DateTime.Now.ToString("dd/MM/yyyy");
             data.checkoutTime = DateTime.Now.ToString("HH:mm");
             data.advanceAmount = userData.advance_amount;
-            var previousDate = Convert.ToInt32(data.entryDate[0] + data.entryDate[1]);
-            var currentDate = Convert.ToInt32(data.checkoutDate[0] + data.checkoutDate[1]);
-            data.totalStayDays = currentDate - previousDate;
-            for(int i = 0; i < roomData.Count; i++)
+            data.totalStayDays = Convert.ToInt32((DateTime.Now - DateTime.ParseExact(data.entryDate, "dd/MM/yyyy", null)).TotalDays);
+            for (int i = 0; i < roomData.Count; i++)
             {
                 data.totalRent += roomData[i].room_price;
             }
-            data.remainingAmount = data.totalRent - data.advanceAmount;
+            data.totalCost = data.totalRent * data.totalStayDays;
+            data.remainingAmount = data.totalCost - data.advanceAmount;
             return View(data);
         }
-        
-
-
+        [HttpPost]
+        public IActionResult Checkout(CheckOutFormModel checkout)
+        {
+            var userData = db.customer_info.Where(x => x.customer_id == checkout.cc).FirstOrDefault();
+            List<NewRoom> roomData = db.new_room.Where(x => x.room_booked_by == checkout.cc).ToList();
+            var reportData = db.report_data.Where(x => x.invoice_no == userData.invoice_no).ToList();
+            for(int i = 0; i < reportData.Count; i++)
+            {
+                reportData[i].check_out_time = DateTime.Now;
+                reportData[i].room_total = (Convert.ToDouble(reportData[i].room_price) * checkout.totalStayDays).ToString();
+            }
+            int last = reportData.Count - 1;
+            reportData[last].sub_total = checkout.totalCost;
+            reportData[last].discount = checkout.discountAmount;
+            reportData[last].advance_amount = userData.advance_amount;
+            reportData[last].grand_total = checkout.remainingAmount;
+            reportData[last].checked_out = true;
+            for(int i = 0; i < roomData.Count; i++)
+            {
+                roomData[i].room_booked_by = 0;
+                roomData[i].room_status = true;
+                db.Entry(roomData[i]).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            }
+            userData.checked_in = false;
+            userData.invoice_no = "";
+            userData.advance_amount = 0;
+            db.Entry(userData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.SaveChanges();
+            ViewBag.message = "Checked Out Complete";
+            return RedirectToAction("UserWork");
+        }
     }
 }

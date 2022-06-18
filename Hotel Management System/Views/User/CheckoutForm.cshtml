@@ -1,0 +1,191 @@
+﻿@model Hotel_Management_System.Models.CheckOutFormModel
+
+@section scripts{
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    <script>
+        function changeTotalDays() {
+            var totalDays = document.getElementById("totalDays").value;
+            var totalAmount = @Model.totalRent * totalDays;
+            var remainingAmount = totalAmount - @Model.advanceAmount;
+            document.getElementById("remAmount").setAttribute('value', remainingAmount)
+            document.getElementById("totalCost").setAttribute('value', totalAmount)
+        }
+
+        function changeDiscount() {
+            var reamaningAmount = document.getElementById("remAmount").value;
+            var discountAmount = document.getElementById("discountAmount").value;
+            var amount = reamaningAmount - discountAmount;
+            document.getElementById("remAmount").setAttribute('value', amount);
+        }
+    </script>
+}
+
+<form asp-action="Checkout">
+    <div>
+        <h4>Check Out Form </h4>
+        <hr />
+
+        <div>
+            <h4>CustomerDetails</h4>
+            <hr />
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            NID
+                        </th>
+                        <th>
+                            Phone
+                        </th>
+                        <th>
+                            Picture
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td class="col-sm-2">
+                            @Html.DisplayFor(model => model.userData.customer_name)
+                        </td>
+                        <td class="col-sm-2">
+                            @Html.DisplayFor(model => model.userData.customer_nid)
+                        </td>
+                        <td class="col-sm-2">
+                            @Html.DisplayFor(model => model.userData.customer_phone)
+                        </td>
+                        <td class="col-sm-2">
+                            <img src="@Model.userData.image_path" alt="Human Photo" width="140" height="80">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+        <div>
+
+            <h4>Booked Rooms</h4>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Room Type
+                        </th>
+                        <th>
+                            Room Price
+                        </th>
+                        <th>
+                            Room Floor
+                        </th>
+                        <th>
+                            Room No
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.roomData.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Model.roomData[i].room_type
+                            </td>
+                            <td>
+                                @Model.roomData[i].room_price
+                            </td>
+                            <td>
+                                @Model.roomData[i].room_floor
+                            </td>
+                            <td>
+                                @Model.roomData[i].room_no
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+
+        <dl class="row">
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.entryDate)
+            </dt>
+            <dd class="col-sm-3">
+                @Html.DisplayFor(model => model.entryDate)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.entryTime)
+            </dt>
+            <dd class="col-sm-3">
+                @Html.DisplayFor(model => model.entryTime)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.checkoutDate)
+            </dt>
+            <dd class="col-sm-3">
+                @Html.DisplayFor(model => model.checkoutDate)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.checkoutTime)
+            </dt>
+            <dd class="col-sm-3">
+                @Html.DisplayFor(model => model.checkoutTime)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.totalRent)
+            </dt>
+            <dd class="col-sm-3">
+                @Html.DisplayFor(model => model.totalRent)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.totalStayDays)
+            </dt>
+            <dd class="col-sm-3">
+                <input type="number" asp-for="@Model.totalStayDays" id="totalDays" class="form-control" onchange="changeTotalDays()" />
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.totalCost)
+            </dt>
+            <dd class="col-sm-3">
+                <input asp-for="@Model.totalCost" class="form-control" id="totalCost" readonly />
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.advanceAmount)
+            </dt>
+            <dd class="col-sm-3">
+                <input asp-for="@Model.advanceAmount" class="form-control"  readonly />
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.discountAmount)
+            </dt>
+            <dd class="col-sm-3">
+                <input type="number" asp-for="@Model.discountAmount" id="discountAmount" class="form-control" onchange="changeDiscount()" />
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.remainingAmount)
+            </dt>
+            <dd class="col-sm-3">
+                <input asp-for="@Model.remainingAmount" class="form-control" id="remAmount" readonly />
+            </dd>
+            <dd class="col-sm-3">
+                <input asp-for="@Model.cc" hidden />
+            </dd>
+            <dd class="col-sm-3">
+                <input type="submit" value="Check Out" class="btn btn-primary" />
+            </dd>
+        </dl>
+    </div>
+</form>
+
+
+
+
