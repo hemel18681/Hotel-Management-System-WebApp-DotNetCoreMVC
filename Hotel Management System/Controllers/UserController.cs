@@ -336,6 +336,7 @@ namespace Hotel_Management_System.Controllers
             reportData[last].advance_amount = userData.advance_amount;
             reportData[last].grand_total = checkout.remainingAmount;
             reportData[last].checked_out = true;
+            reportData[last].stayed = checkout.totalStayDays;
             for(int i = 0; i < roomData.Count; i++)
             {
                 roomData[i].room_booked_by = 0;
